@@ -16,6 +16,8 @@ use App\Http\Controllers\UserController;
 
 Route::post('/store',[UserController::class,'store'])->name('user.store');
 Route::get('/get',[UserController::class,'get'])->name('user.get');
+Route::get('/delete',[UserController::class,'delete'])->name('user.delete');
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -31,3 +33,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+
+
