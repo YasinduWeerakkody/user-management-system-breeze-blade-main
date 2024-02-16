@@ -26,7 +26,7 @@
         <div class="mt-4">
             <x-input-label for="usertype" :value="__('usertype')" />
             <div class="block mt-1 w-full">
-                <label for="usertype" class="block font-medium text-sm text-gray-700">User Type</label>
+                <label for="usertype" class="block font-medium text-sm text-gray-700"></label>
                 <select id="usertype" name="usertype" class="form-select mt-1 block w-full">
                     <option value="admin">Admin</option>
                     <option value="superadmin">Super Admin</option>

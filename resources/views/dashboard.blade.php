@@ -2,19 +2,81 @@
 @section('content')
 
 <div class="row">
+    <h1>Dashboard</h1>
 
-    <h1>Admin Page</h1>
-
-    <meta charset="UTF-8">
+     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
+<!-- <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
-</style>
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #feb47b;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+
+
+</style>  -->
+
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -24,8 +86,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 
 
- 
-    <!-- <form action="javascript:void(0)" name="dashboard" id="dashboard" method="post">
+
+
+    {{-- <form action="javascript:void(0)" name="dashboard" id="dashboard" method="post">
         @csrf
 
         <div class="">
@@ -51,10 +114,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
         </div>
 
         <button type="submit" value="submit" id="submit">Submit</button>
-    </form> -->
+    </form> --}}
 
+</div>
 
-  <table id="userDataTable" class="table">
+<table id="userDataTable" class="table">
     <thead>
         <tr>
             <th>#</th>
@@ -66,6 +130,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
             <th>preview</th>
             <th>status</th>
             <th>action</th>
+
+            
         </tr>
     </thead>
 
@@ -74,100 +140,87 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
     </tbody>
 
-    
-
 </table>
-  
 
-    
-</div>
+            <th><button class="sort-btn btn btn-outline-secondary" data-sort-by="username">Sort by Username</button></th>
+            <th><button class="sort-btn btn btn-outline-secondary" data-sort-by="name">Sort by Name</button></th>
+            <th><button class="sort-btn btn btn-outline-secondary" data-sort-by="email">Sort by Email</button></th>
 
+  <!-- Modal -->
 
-<!-- edit -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Users Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           <form action="javascript:void(0)" name="dashboard" id="dashboardUpdate" method="post">
+                @csrf
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >Add New Users</button>
-
-<th><button class="btn btn-outline-secondary" data-sort-by="username">Sort by Username</button></th>
-<th><button class="btn btn-outline-secondary" data-sort-by="name">Sort by Name</button></th>
-<th><button class="btn btn-outline-secondary" data-sort-by="email">Sort by Email</button></th>
-
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add New Users</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-
-         <!-- <form action="javascript:void(0)" name="dashboard" id="dashboard" method="post"> -->
-
-         <form method="post" action="{{route('user.store')}}">
-        @csrf
-        @method('post')
-          <div class="form-group">
-            <label for="" class="col-form-label">Name:</label>
-            <input type="text" class="form-control" id="name" name="name">
-          </div>
-
-          <div class="form-group">
-            <label for="" class="col-form-label">Email:</label>
-            <input type="email" class="form-control" id="email" name="email">
-          </div>
-
-          <div class="form-group">
-            <label for="" class="col-form-label">User Name:</label>
-            <input type="text" class="form-control" id="username" name="username">
-          </div>
-
-          <select id="usertype" name="usertype" class="form-select mt-1 block w-full">
-            <option value="admin">Admin</option>
-            <option value="superadmin">Super Admin</option>
-            <option value="guest">Guest</option>
-        </select>
-
-          <div class="form-group">
-            <label for="" class="col-form-label">password:</label>
-            <input type="password" class="form-control" id="password" name="password">
-          </div>
+                <input type="hidden" name="userId" id="userId">
 
 
-
-
+            
           
-        </form>
-      </div>
-      <div class="modal-footer">
+                <div class="form-group">
+                    <label for="" class="col-form-label">name</label>
+                    <input type="text" name="name" id="nameUpdate" class="form-control">
+                </div>
 
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" value="submit" id="submit">Save</button>
-       
+                <div class="form-group">
+                    <label for="" class="col-form-label">email</label>
+                    <input type="email" name="email" id="emailUpdate" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="" class="col-form-label">username</label>
+                    <input type="text" name="username" id="usernameUpdate" class="form-control">
+                </div>
+
+                <select id="usertypeUpdate" name="usertypeUpdate" class="form-select mt-1 block w-full">
+                    <option value="admin">Admin</option>
+                    <option value="superadmin">Super Admin</option>
+                    <option value="guest">Guest</option>
+                </select>
+
+                    <select id="statusUpdate" name="statusUpdate" class="form-select mt-1 block w-full">
+                        <option value="0">deactive</option>
+                        <option value="1">active</option>
+                    </select>
+
+                    <div class="modal-footer">
+                <button type="submit" value="submit" id="submit"  class="btn btn-primary">Save Changes</button>
+
+                <div>
+
+
+            </form>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  
 
 
+  
 
-
-<!-- Modal -->
 
 <!-- Large modal -->
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
 
 <!-- -------------------- -->
+
+
+
+
 
 @endsection
 @section('script')
 <script type="text/javascript">
     $(document).ready(function() {
-
-
 
         // Fetch user data when the document is ready
         fetchUserData();
@@ -192,14 +245,14 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                             '<td>' + user.name + '</td>' +
                             '<td>' + user.email + '</td>' +
                             '<td>' + user.user_type + '</td>' +
-                            '<td>' + '<button class="update btn btn-success" >preview</button>' + '</td>' +
+                            '<td>'+ '<button class="view btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-user-id="' + user.id + '">View</button>' +
                             '<td>' + user.status + '</td>' +
-                            '<td>'+ '<button class="update btn btn-primary"  data-user-id="' + user.id + ' ">Update</button>' +
-
-                            '<td>'
-                                   + '<button class="delete btn btn-danger" data-user-id="' + user.id + '">Delete</button>' +
-                            '</td>' +  
+                            '<td>'+ '<button class="update btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-user-id="' + user.id + '">Update</button>' +
+                             '<td>' +'<button class="delete btn btn-danger" data-user-id="' + user.id + '">Delete</button>' +
+                            '</td>' +
                             '</tr>';
+
+                          
                         tableBody.append(row);
                     });
                 }
@@ -208,6 +261,64 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                 }
             });
         }
+
+        $(document).on('click', ".view", function() {
+    var userId = $(this).data("user-id");
+
+    $('#exampleModal').modal('show');
+    $('.close').hide();
+
+    $.ajax({
+        url: "{{ route('user.find') }}",
+        type: "GET",
+        data: {
+            userId: $(this).data('user-id'),
+        },
+        success: function(response) {
+            $('#nameUpdate').val(response.name);
+            $('#emailUpdate').val(response.email);
+            $('#usernameUpdate').val(response.username);
+            $('#usertypeUpdate').val(response.user_type);
+            $('#usertypeUpdate').trigger('change');
+            $('#statusUpdate').val(response.status);
+            $('#statusUpdate').trigger('change');
+            $('#userId').val(response.id);
+            // Set the switch checkbox based on the status received from the backend
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+
+
+        $(document).on('click', ".update", function() {
+    var userId = $(this).data("user-id");
+
+    $('#exampleModal').modal('show');
+
+    $.ajax({
+        url: "{{ route('user.find') }}",
+        type: "GET",
+        data: {
+            userId: $(this).data('user-id'),
+        },
+        success: function(response) {
+            $('#nameUpdate').val(response.name);
+            $('#emailUpdate').val(response.email);
+            $('#usernameUpdate').val(response.username);
+            $('#usertypeUpdate').val(response.user_type);
+            $('#usertypeUpdate').trigger('change');
+            $('#statusUpdate').val(response.status);
+            $('#statusUpdate').trigger('change');
+            $('#userId').val(response.id);
+            // Set the switch checkbox based on the status received from the backend
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
 
         $(document).on('click', '.delete', function(){
             $.ajax({
@@ -261,54 +372,48 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
             });
         });
 
-        // form submision
-        $("#dashboard").validate({
-                rules: {
-                    name: {
-                        required: true
-                        , maxlength: 50
+  
+                // form updation
+                $("#dashboardUpdate").validate({
+                        rules: {
+                            nameUpdate: {
+                    required: "Enter your name",
+                    maxlength: "Not valid"
+                },
+                emailUpdate: {
+                    required: "Enter your email",
+                    maxlength: "Not valid",
+                    email: "Enter a valid email" // Changed message for email validation
+                },
+                usernameUpdate: {
+                    required: "Enter username",
+                    maxlength: "Not valid"
+                },
+                    usertypeUpdate: {
+                        required: true,
+                        maxlength: 50
                     }
-                    , email: {
-                        required: true
-                        , maxlength: 50
+                },
+                messages: {
+                    nameUpdate: {
+                        required: "Enter your name",
+                        maxlength: "Not valid"
+                    },
+                    emailUpdate: {
+                        required: "Enter your email",
+                        maxlength: "Not valid",
+                        email: "Enter a valid email" 
+                    },
+                    usernameUpdate: {
+                        required: "Enter username",
+                        maxlength: "Not valid"
+                    },
+                    usertypeUpdate: {
+                        required: "Select user type",
+                        maxlength: "Not valid"
                     }
-                    , username: {
-                        required: true
-                        , maxlength: 50
-                    }
-                    , usertype: {
-                        required: true
-                        , maxlength: 50
-                    }
-                    , password: {
-                        required: true
-                        , maxlength: 6
-                    }
-                }
-                , messages: {
-                    name: {
-                        required: "enter your name"
-                        , maxlength: "not valid"
-                    }
-                    , email: {
-                        required: "enter your email"
-                        , maxlength: "not valid"
-                        , email: "not valid"
-                    }
-                    , username: {
-                        required: "enter username"
-                        , maxlength: "not valid"
-                    }
-                    , usertype: {
-                        required: "select user type"
-                        , maxlength: "not valid"
-                    }
-                    , password: {
-                        required: "enter your password"
-                        , maxlength: "not valid"
-                    }
-                }
-                , submitHandler: function(form) {
+                },
+                    submitHandler: function(form) {
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -318,15 +423,18 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                     $('#submit').attr("disabled", true);
 
                     $.ajax({
-                        url: "{{ url('store') }}"
-                        , type: "POST"
-                        , data: $('#dashboard').serialize()
-                        , success: function(response) {
+                        url: "{{ route('user.update') }}",
+                        type: "POST",
+                        data: {
+                            userId:$(this).data('user-id'),
+                            formData: $('#dashboardUpdate').serialize()
+                        },
+                        success: function(response) {
                             $('#submit').html('Submit');
                             $('#submit').attr('disabled', false);
                             alert('Ajax form has been submitted successfully');
                             fetchUserData();
-                            document.getElementById('dashboard').rest();
+                            document.getElementById('dashboardUpdate').reset();
                         }
                     });
                 }
@@ -334,8 +442,4 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
     });
 
 </script>
-
-
-
-
 @endsection
