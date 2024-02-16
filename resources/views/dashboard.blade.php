@@ -127,7 +127,7 @@ input:checked + .slider:before {
             <th>name</th>
             <th>email</th>
             <th>user type</th>
-            <th>preview</th>
+            <!-- <th>preview</th> -->
             <th>status</th>
             <th>action</th>
 
@@ -191,7 +191,7 @@ input:checked + .slider:before {
                     </select>
 
                     <div class="modal-footer">
-                <button type="submit" value="submit" id="submit"  class="btn btn-primary">Save Changes</button>
+                <button type="submit" value="submit" id="submit"  class="btn btn-primary close">Save Changes</button>
 
                 <div>
 
@@ -238,6 +238,8 @@ input:checked + .slider:before {
                     tableBody.empty(); // Clear existing rows
 
                     $.each(response, function(index, user) {
+                        var badge = user.status == 1 ? '<span class="badge badge-success">active</span>' : '<span class="badge badge-secondary">deactive</span>';
+
                         var row = '<tr>' +
                             '<td>' + (++index) + '</td>' +
                             '<td>' + user.id + '</td>' +
@@ -245,8 +247,8 @@ input:checked + .slider:before {
                             '<td>' + user.name + '</td>' +
                             '<td>' + user.email + '</td>' +
                             '<td>' + user.user_type + '</td>' +
-                            '<td>'+ '<button class="view btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-user-id="' + user.id + '">View</button>' +
-                            '<td>' + user.status + '</td>' +
+                            // '<td>'+ '<button class="view btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-user-id="' + user.id + '">View</button>' +
+                            '<td>' + badge + '</td>' +
                             '<td>'+ '<button class="update btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-user-id="' + user.id + '">Update</button>' +
                              '<td>' +'<button class="delete btn btn-danger" data-user-id="' + user.id + '">Delete</button>' +
                             '</td>' +
